@@ -1,0 +1,287 @@
+SQL> select name,i.dept_name,building from instructor i,teaches t where i.dept_name=t.dept_name;
+select name,i.dept_name,building from instructor i,teaches t where i.dept_name=t.dept_name
+                                                                                 *
+ERROR at line 1:
+ORA-00904: invalid column name
+
+
+SQL> select name,i.dept_name,building from instructor i,department d where i.dept_name=d.dept_name;
+
+NAME                 DEPT_NAME            BUILDING
+-------------------- -------------------- ---------------
+Srinivasan           Comp. Sci.           Taylor
+Wu                   Finance              Painter
+Mozart               Music                Packard
+Einstein             Physics              Watson
+El Said              History              Painter
+Gold                 Physics              Watson
+Katz                 Comp. Sci.           Taylor
+Califieri            History              Painter
+Singh                Finance              Painter
+Crick                Biology              Watson
+Brandt               Comp. Sci.           Taylor
+
+NAME                 DEPT_NAME            BUILDING
+-------------------- -------------------- ---------------
+Kim                  Elec. Eng.           Taylor
+
+12 rows selected.
+
+SQL> select distinct name instructor i,teaches t where i.ID=t.ID;
+select distinct name instructor i,teaches t where i.ID=t.ID
+                                *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select distinct name from instructor i,teaches t where i.ID=t.ID;
+
+NAME
+--------------------
+Brandt
+Crick
+Einstein
+El Said
+Katz
+Kim
+Mozart
+Srinivasan
+Wu
+
+9 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> set line size 600;
+SP2-0268: linesize option not a valid number
+SQL> set line size 300;
+SP2-0268: linesize option not a valid number
+SQL> select t.course_id,title from takes t,course c where Id=12345 and t.course_id=c.course_id;
+
+COURSE_I TITLE
+-------- --------------------------------------------------
+CS-101   Intro. to Computer Science
+CS-190   Game Design
+CS-315   Robotics
+CS-347   Database System Concepts
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select name,course_id from instructor i,teaches t where i.ID=t.ID;
+
+NAME                 COURSE_I
+-------------------- --------
+Srinivasan           CS-101
+Srinivasan           CS-315
+Srinivasan           CS-347
+Wu                   FIN-201
+Mozart               MU-199
+Einstein             PHY-101
+El Said              HIS-351
+Katz                 CS-101
+Katz                 CS-319
+Crick                BIO-101
+Crick                BIO-301
+
+NAME                 COURSE_I
+-------------------- --------
+Brandt               CS-190
+Brandt               CS-190
+Brandt               CS-319
+Kim                  EE-181
+
+15 rows selected.
+
+SQL> select name,course_id from instructor i,teaches t where i.ID=t.ID and dept_name='Comp Sci.';
+
+no rows selected
+
+SQL> select name,course_id from instructor i,teaches t where i.ID=t.ID and dept_name='Comp. sci.';
+
+no rows selected
+
+SQL> select name,course_id from instructor i,teaches t where i.ID=t.ID and dept_name='Comp. Sci.';
+
+NAME                 COURSE_I
+-------------------- --------
+Srinivasan           CS-101
+Srinivasan           CS-315
+Srinivasan           CS-347
+Katz                 CS-101
+Katz                 CS-319
+Brandt               CS-190
+Brandt               CS-190
+Brandt               CS-319
+
+8 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select distinct i1.name from instructor i1,instructor i2 where i2.dept_name='Boilogy' and i1.sa
+lary>i2.salary;
+
+no rows selected
+
+SQL> select distinct i1.name from instructor i1,instructor i2 where i2.dept_name='Biology' and i1.sa
+lary>i2.salary;
+
+NAME
+--------------------
+Brandt
+Einstein
+Gold
+Katz
+Kim
+Singh
+Wu
+
+7 rows selected.
+
+SQL> select  i.*,course_id from instructor i,teaches t where i.ID=t.ID;
+
+ID    NAME                 DEPT_NAME                SALARY COURSE_I
+----- -------------------- -------------------- ---------- --------
+10101 Srinivasan           Comp. Sci.                65000 CS-101
+10101 Srinivasan           Comp. Sci.                65000 CS-315
+10101 Srinivasan           Comp. Sci.                65000 CS-347
+12121 Wu                   Finance                   90000 FIN-201
+15151 Mozart               Music                     40000 MU-199
+22222 Einstein             Physics                   95000 PHY-101
+32343 El Said              History                   60000 HIS-351
+45565 Katz                 Comp. Sci.                75000 CS-101
+45565 Katz                 Comp. Sci.                75000 CS-319
+76766 Crick                Biology                   72000 BIO-101
+76766 Crick                Biology                   72000 BIO-301
+
+ID    NAME                 DEPT_NAME                SALARY COURSE_I
+----- -------------------- -------------------- ---------- --------
+83821 Brandt               Comp. Sci.                92000 CS-190
+83821 Brandt               Comp. Sci.                92000 CS-190
+83821 Brandt               Comp. Sci.                92000 CS-319
+98345 Kim                  Elec. Eng.                80000 EE-181
+
+15 rows selected.
+
+SQL> select distinct i.*,course_id from instructor i,teaches t where i.ID=t.ID;
+
+ID    NAME                 DEPT_NAME                SALARY COURSE_I
+----- -------------------- -------------------- ---------- --------
+10101 Srinivasan           Comp. Sci.                65000 CS-101
+10101 Srinivasan           Comp. Sci.                65000 CS-315
+10101 Srinivasan           Comp. Sci.                65000 CS-347
+12121 Wu                   Finance                   90000 FIN-201
+15151 Mozart               Music                     40000 MU-199
+22222 Einstein             Physics                   95000 PHY-101
+32343 El Said              History                   60000 HIS-351
+45565 Katz                 Comp. Sci.                75000 CS-101
+45565 Katz                 Comp. Sci.                75000 CS-319
+76766 Crick                Biology                   72000 BIO-101
+76766 Crick                Biology                   72000 BIO-301
+
+ID    NAME                 DEPT_NAME                SALARY COURSE_I
+----- -------------------- -------------------- ---------- --------
+83821 Brandt               Comp. Sci.                92000 CS-190
+83821 Brandt               Comp. Sci.                92000 CS-319
+98345 Kim                  Elec. Eng.                80000 EE-181
+
+14 rows selected.
+
+SQL> select names from instructor i,teaches t where i.ID=t.ID and t.dept_name='Biology';
+select names from instructor i,teaches t where i.ID=t.ID and t.dept_name='Biology'
+                                                               *
+ERROR at line 1:
+ORA-00904: invalid column name
+
+
+SQL> select names from instructor i,teaches t where i.ID=t.ID and i.dept_name='Biology';
+select names from instructor i,teaches t where i.ID=t.ID and i.dept_name='Biology'
+       *
+ERROR at line 1:
+ORA-00904: invalid column name
+
+
+SQL> select name from instructor i,teaches t where i.ID=t.ID and i.dept_name='Biology';
+
+NAME
+--------------------
+Crick
+Crick
+
+SQL> select name,course_id from instructor i,teaches t where i.ID=t.ID and i.dept_name='Biology';
+NAME                 COURSE_I
+-------------------- --------
+Crick                BIO-101
+Crick                BIO-301
+
+SQL> select course_id from teaches t where (t.semester='fall' and t.year=2009) or (t.semester='Sprin
+g' and t.year=2010);
+
+COURSE_I
+--------
+CS-315
+FIN-201
+MU-199
+HIS-351
+CS-101
+CS-319
+CS-319
+
+7 rows selected.
+
+SQL> select course_id from teaches t where (t.semester='Fall' and t.year=2009) or (t.semester='Sprin
+g' and t.year=2010);
+
+COURSE_I
+--------
+CS-101
+CS-315
+CS-347
+FIN-201
+MU-199
+PHY-101
+HIS-351
+CS-101
+CS-319
+CS-319
+
+10 rows selected.
+
+SQL> select course_id from teaches t where t.semester='Fall' and t.year=2009 - 
+
+SQL> select course_id from teaches t where t.semester='Fall' and t.year=2009 - select course_id from
+ teaches t where t.semester='Spring' and t.year=2010);
+select course_id from teaches t where t.semester='Fall' and t.year=2009 - select course_id from teac
+                                                                          *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL>  select course_id from teaches t where t.semester='Fall' and t.year=2009 subtract select course
+_id from teaches t where t.semester='Spring' and t.year=2010);
+ select course_id from teaches t where t.semester='Fall' and t.year=2009 subtract select course_id f
+                                                                         *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select course_id from teaches t where t.semester='Fall' and t.year=2009 minus select course_id 
+from teaches t where t.semester='Spring' and t.year=2010);
+select course_id from teaches t where t.semester='Fall' and t.year=2009 minus select course_id from 
+                                                                                                    
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select course_id from teaches t where t.semester='Fall' and t.year=2009 minus select course_id
+  2  from teaches t where t.semester='Spring' and t.year=2010;
+
+COURSE_I
+--------
+CS-347
+PHY-101
